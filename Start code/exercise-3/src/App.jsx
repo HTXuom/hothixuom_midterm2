@@ -1,9 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 
 function App() {
-  /* You will need to use many state to keep the inut values and other needs */
+  const [numberA, setNumberA] = useState(0);
+  const [numberB, setNumberB] = useState(0);
+  const [result, setResult] = useState(0);
+  const [isError, setIsError] = useState(false);
 
-  /* You will need some function to handle the key pressed and button events */
+  function onA(e) {
+    const value = e.target.value;
+    if (isNaN(value)) {
+      setIsError(true);
+    } else {
+      setNumberA(parseFloat(value));
+      setIsError(false);
+    }
+  }
+
+  function onB(e) {
+    const value = e.target.value;
+    if (isNaN(value)) {
+      setIsError(true);
+    } else {
+      setNumberB(parseFloat(value));
+      setIsError(false);
+    }
+  }
+
+  function handleCompute() {
+    const sum = numberA + numberB;
+    setResult(sum);
+  }
 
   return (
     <main>
@@ -16,10 +42,12 @@ function App() {
       <input onKeyUp={onB} />
 
       <label>A + B =</label>
-
-      {/* When Compute buton is clicked, this input display the sum of the 2 numbers, or the error message in RED */}
-      <input disabled />
-      <button>Compute</button>
+      <input
+        disabled
+        style={{ color: isError ? "red" : "inherit" }}
+        value={isError ? "Input must be a number" : result.toString()}
+      />
+      <button onClick={handleCompute}>Compute</button>
     </main>
   );
 }
